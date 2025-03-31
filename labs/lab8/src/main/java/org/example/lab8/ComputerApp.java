@@ -5,59 +5,62 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 // Подсистема: Процессор
 class CPU {
-    private boolean isRussian;
-    public CPU(boolean isRussian) { this.isRussian = isRussian; }
-    public String start() { return isRussian ? "Процессор запущен\n" : "CPU started\n"; }
-    public String shutdown() { return isRussian ? "Процессор выключен\n" : "CPU shutdown\n"; }
-    public String overclock() { return isRussian ? "Процессор разогнан до 4.5 ГГц\n" : "CPU overclocked to 4.5 GHz\n"; }
-    public void setRussian(boolean isRussian) { this.isRussian = isRussian; }
+    private ResourceBundle messages;
+    public CPU(ResourceBundle messages) { this.messages = messages; }
+    public String start() { return messages.getString("cpuStarted") + "\n"; }
+    public String shutdown() { return messages.getString("cpuShutdown") + "\n"; }
+    public String overclock() { return messages.getString("cpuOverclocked") + "\n"; }
+    public void setMessages(ResourceBundle messages) { this.messages = messages; }
 }
 
 // Подсистема: Память
 class Memory {
-    private boolean isRussian;
-    public Memory(boolean isRussian) { this.isRussian = isRussian; }
-    public String load() { return isRussian ? "Память загружена\n" : "Memory loaded\n"; }
-    public String clear() { return isRussian ? "Память очищена\n" : "Memory cleared\n"; }
-    public String allocate(int mb) { return isRussian ? "Выделено " + mb + " МБ ОЗУ\n" : "Allocated " + mb + " MB of RAM\n"; }
-    public void setRussian(boolean isRussian) { this.isRussian = isRussian; }
+    private ResourceBundle messages;
+    public Memory(ResourceBundle messages) { this.messages = messages; }
+    public String load() { return messages.getString("memoryLoaded") + "\n"; }
+    public String clear() { return messages.getString("memoryCleared") + "\n"; }
+    public String allocate(int mb) { return String.format(messages.getString("memoryAllocatedMb") + "\n", mb); }
+    public void setMessages(ResourceBundle messages) { this.messages = messages; }
 }
 
 // Подсистема: Жесткий диск
 class HardDrive {
-    private boolean isRussian;
-    public HardDrive(boolean isRussian) { this.isRussian = isRussian; }
-    public String readData() { return isRussian ? "Чтение данных с жесткого диска\n" : "Reading data from Hard Drive\n"; }
-    public String stop() { return isRussian ? "Жесткий диск остановлен\n" : "Hard Drive stopped\n"; }
-    public String writeData(String data) { return isRussian ? "Запись '" + data + "' на жесткий диск\n" : "Writing '" + data + "' to Hard Drive\n"; }
-    public void setRussian(boolean isRussian) { this.isRussian = isRussian; }
+    private ResourceBundle messages;
+    public HardDrive(ResourceBundle messages) { this.messages = messages; }
+    public String readData() { return messages.getString("hdReading") + "\n"; }
+    public String stop() { return messages.getString("hdStopped") + "\n"; }
+    public String writeData(String data) { return String.format(messages.getString("hdWriting") + "\n", data); }
+    public void setMessages(ResourceBundle messages) { this.messages = messages; }
 }
 
 // Подсистема: Операционная система
 class OperatingSystem {
-    private boolean isRussian;
-    public OperatingSystem(boolean isRussian) { this.isRussian = isRussian; }
-    public String boot() { return isRussian ? "ОС загружается...\n" : "OS booting...\n"; }
-    public String shutdown() { return isRussian ? "ОС выключается...\n" : "OS shutting down...\n"; }
-    public String update() { return isRussian ? "Установка обновлений ОС\n" : "Installing OS updates\n"; }
-    public void setRussian(boolean isRussian) { this.isRussian = isRussian; }
+    private ResourceBundle messages;
+    public OperatingSystem(ResourceBundle messages) { this.messages = messages; }
+    public String boot() { return messages.getString("osBooting") + "\n"; }
+    public String shutdown() { return messages.getString("osShuttingDown") + "\n"; }
+    public String update() { return messages.getString("osUpdating") + "\n"; }
+    public void setMessages(ResourceBundle messages) { this.messages = messages; }
 }
 
 // Подсистема: Видеокарта
 class GraphicsCard {
-    private boolean isRussian;
-    public GraphicsCard(boolean isRussian) { this.isRussian = isRussian; }
-    public String enable() { return isRussian ? "Видеокарта включена\n" : "Graphics Card enabled\n"; }
-    public String disable() { return isRussian ? "Видеокарта выключена\n" : "Graphics Card disabled\n"; }
-    public String render(String content) { return isRussian ? "Рендеринг " + content + "\n" : "Rendering " + content + "\n"; }
-    public void setRussian(boolean isRussian) { this.isRussian = isRussian; }
+    private ResourceBundle messages;
+    public GraphicsCard(ResourceBundle messages) { this.messages = messages; }
+    public String enable() { return messages.getString("gpuEnabled") + "\n"; }
+    public String disable() { return messages.getString("gpuDisabled") + "\n"; }
+    public String render(String content) { return String.format(messages.getString("gpuRendering") + "\n", content); }
+    public void setMessages(ResourceBundle messages) { this.messages = messages; }
 }
 
 // Фасад: Компьютер
@@ -67,101 +70,101 @@ class ComputerFacade {
     private HardDrive hardDrive;
     private OperatingSystem os;
     private GraphicsCard gpu;
-    private boolean isRussian;
+    private ResourceBundle messages;
 
-    public ComputerFacade(boolean isRussian) {
-        this.isRussian = isRussian;
-        this.cpu = new CPU(isRussian);
-        this.memory = new Memory(isRussian);
-        this.hardDrive = new HardDrive(isRussian);
-        this.os = new OperatingSystem(isRussian);
-        this.gpu = new GraphicsCard(isRussian);
+    public ComputerFacade(ResourceBundle messages) {
+        this.messages = messages;
+        this.cpu = new CPU(messages);
+        this.memory = new Memory(messages);
+        this.hardDrive = new HardDrive(messages);
+        this.os = new OperatingSystem(messages);
+        this.gpu = new GraphicsCard(messages);
     }
 
-    public void setRussian(boolean isRussian) {
-        this.isRussian = isRussian;
-        cpu.setRussian(isRussian);
-        memory.setRussian(isRussian);
-        hardDrive.setRussian(isRussian);
-        os.setRussian(isRussian);
-        gpu.setRussian(isRussian);
+    public void setMessages(ResourceBundle messages) {
+        this.messages = messages;
+        cpu.setMessages(messages);
+        memory.setMessages(messages);
+        hardDrive.setMessages(messages);
+        os.setMessages(messages);
+        gpu.setMessages(messages);
     }
 
     public String start() {
-        StringBuilder output = new StringBuilder(isRussian ? "Запуск компьютера...\n" : "Starting computer...\n");
+        StringBuilder output = new StringBuilder(messages.getString("starting") + "\n");
         output.append(cpu.start());
         output.append(memory.load());
         output.append(hardDrive.readData());
         output.append(gpu.enable());
         output.append(os.boot());
-        output.append(isRussian ? "Компьютер успешно запущен\n" : "Computer started successfully\n");
+        output.append(messages.getString("computerStarted") + "\n");
         return output.toString();
     }
 
     public String shutdown() {
-        StringBuilder output = new StringBuilder(isRussian ? "Выключение компьютера...\n" : "Shutting down computer...\n");
+        StringBuilder output = new StringBuilder(messages.getString("shuttingDown") + "\n");
         output.append(os.shutdown());
         output.append(gpu.disable());
         output.append(hardDrive.stop());
         output.append(memory.clear());
         output.append(cpu.shutdown());
-        output.append(isRussian ? "Компьютер успешно выключен\n" : "Computer shutdown completed\n");
+        output.append(messages.getString("computerShutdown") + "\n");
         return output.toString();
     }
 
     public String runProgram(String programName) {
-        StringBuilder output = new StringBuilder(isRussian ? "Запуск программы: " : "Running program: " + programName + "\n");
+        StringBuilder output = new StringBuilder(messages.getString("runningProgram") + programName + "\n");
         output.append(memory.allocate(512));
         output.append(cpu.start());
         output.append(gpu.render(programName));
-        output.append(isRussian ? programName + " запущена\n" : programName + " is running\n");
+        output.append(programName + messages.getString("programRunning") + "\n");
         return output.toString();
     }
 
     public String overclockCPU() {
-        StringBuilder output = new StringBuilder(isRussian ? "Разгон процессора...\n" : "Overclocking CPU...\n");
+        StringBuilder output = new StringBuilder(messages.getString("overclocking") + "\n");
         output.append(cpu.overclock());
-        output.append(isRussian ? "Производительность процессора увеличена\n" : "CPU performance boosted\n");
+        output.append(messages.getString("cpuBoosted") + "\n");
         return output.toString();
     }
 
     public String saveFile(String filename) {
-        StringBuilder output = new StringBuilder(isRussian ? "Сохранение файла...\n" : "Saving file...\n");
+        StringBuilder output = new StringBuilder(messages.getString("savingFile") + "\n");
         output.append(hardDrive.writeData(filename));
-        output.append(isRussian ? "Файл '" + filename + "' сохранён\n" : "File '" + filename + "' saved\n");
+        output.append(String.format(messages.getString("fileSaved") + "\n", filename));
         return output.toString();
     }
 
     public String updateOS() {
-        StringBuilder output = new StringBuilder(isRussian ? "Обновление ОС...\n" : "Updating OS...\n");
+        StringBuilder output = new StringBuilder(messages.getString("updatingOS") + "\n");
         output.append(os.update());
-        output.append(isRussian ? "ОС успешно обновлена\n" : "OS updated successfully\n");
+        output.append(messages.getString("osUpdated") + "\n");
         return output.toString();
     }
 
     public String renderGraphics(String content) {
-        StringBuilder output = new StringBuilder(isRussian ? "Рендеринг графики...\n" : "Rendering graphics...\n");
+        StringBuilder output = new StringBuilder(messages.getString("renderingGraphics") + "\n");
         output.append(gpu.render(content));
-        output.append(isRussian ? "Графика отрендерена\n" : "Graphics rendered\n");
+        output.append(messages.getString("graphicsRendered") + "\n");
         return output.toString();
     }
 
     public String allocateMemory(int mb) {
-        StringBuilder output = new StringBuilder(isRussian ? "Выделение памяти...\n" : "Allocating memory...\n");
+        StringBuilder output = new StringBuilder(messages.getString("allocatingMemory") + "\n");
         output.append(memory.allocate(mb));
-        output.append(isRussian ? "Выделение памяти завершено\n" : "Memory allocation completed\n");
+        output.append(messages.getString("memoryAllocated") + "\n");
         return output.toString();
     }
 
     public String readFile(String filename) {
-        StringBuilder output = new StringBuilder(isRussian ? "Чтение файла...\n" : "Reading file...\n");
+        StringBuilder output = new StringBuilder(messages.getString("readingFile") + "\n");
         output.append(hardDrive.readData());
-        output.append(isRussian ? "Файл '" + filename + "' прочитан\n" : "File '" + filename + "' read\n");
+        output.append(String.format(messages.getString("fileRead") + "\n", filename));
         return output.toString();
     }
 
     public String restart() {
-        StringBuilder output = new StringBuilder(isRussian ? "Перезапуск компьютера...\n" : "Restarting computer...\n");
+        StringBuilder output = new StringBuilder(messages.getString("restarting") + "\n");
         output.append(shutdown());
         output.append("----------------\n");
         output.append(start());
@@ -171,29 +174,41 @@ class ComputerFacade {
 
 // Главный класс с JavaFX интерфейсом
 public class ComputerApp extends Application {
-    private ComputerFacade computer = new ComputerFacade(false); // По умолчанию английский
+    private ComputerFacade computer;
     private TextArea outputArea;
-    private boolean isRussian = false;
+    private ResourceBundle messages;
+    private String[] languageCodes = {"en", "ru", "fr", "de", "es"};
+    private String[] languageNames = {"English", "Русский", "Français", "Deutsch", "Español"};
 
-    // Кнопки
+    // Кнопки и ComboBox
     private Button startButton, shutdownButton, runProgramButton, overclockButton,
             saveFileButton, updateOSButton, renderGraphicsButton,
-            allocateMemoryButton, readFileButton, restartButton, languageButton;
+            allocateMemoryButton, readFileButton, restartButton;
+    private ComboBox<String> languageSelector;
 
     @Override
     public void start(Stage primaryStage) {
+        // Инициализация с английским языком по умолчанию
+        messages = ResourceBundle.getBundle("languages.Messages", new Locale(languageCodes[0]));
+        computer = new ComputerFacade(messages);
+
         // Инициализация кнопок
-        startButton = new Button("Start Computer");
-        shutdownButton = new Button("Shutdown Computer");
-        runProgramButton = new Button("Run Program");
-        overclockButton = new Button("Overclock CPU");
-        saveFileButton = new Button("Save File");
-        updateOSButton = new Button("Update OS");
-        renderGraphicsButton = new Button("Render Graphics");
-        allocateMemoryButton = new Button("Allocate Memory");
-        readFileButton = new Button("Read File");
-        restartButton = new Button("Restart Computer");
-        languageButton = new Button("Switch to Russian");
+        startButton = new Button(messages.getString("startComputer"));
+        shutdownButton = new Button(messages.getString("shutdownComputer"));
+        runProgramButton = new Button(messages.getString("runProgram"));
+        overclockButton = new Button(messages.getString("overclockCPU"));
+        saveFileButton = new Button(messages.getString("saveFile"));
+        updateOSButton = new Button(messages.getString("updateOS"));
+        renderGraphicsButton = new Button(messages.getString("renderGraphics"));
+        allocateMemoryButton = new Button(messages.getString("allocateMemory"));
+        readFileButton = new Button(messages.getString("readFile"));
+        restartButton = new Button(messages.getString("restartComputer"));
+
+        // Инициализация ComboBox для выбора языка
+        languageSelector = new ComboBox<>();
+        languageSelector.getItems().addAll(languageNames);
+        languageSelector.setValue(languageNames[0]); // По умолчанию English
+        languageSelector.setPromptText(messages.getString("selectLanguage"));
 
         outputArea = new TextArea();
         outputArea.setEditable(false);
@@ -211,10 +226,11 @@ public class ComputerApp extends Application {
         readFileButton.setOnAction(e -> outputArea.appendText(computer.readFile("document.txt") + "----------------\n"));
         restartButton.setOnAction(e -> outputArea.appendText(computer.restart() + "----------------\n"));
 
-        // Переключение языка
-        languageButton.setOnAction(e -> {
-            isRussian = !isRussian;
-            computer.setRussian(isRussian);
+        // Обработчик смены языка
+        languageSelector.setOnAction(e -> {
+            int index = languageSelector.getSelectionModel().getSelectedIndex();
+            messages = ResourceBundle.getBundle("languages.Messages", new Locale(languageCodes[index]));
+            computer.setMessages(messages);
             updateLanguage();
         });
 
@@ -224,8 +240,6 @@ public class ComputerApp extends Application {
         buttonGrid.setVgap(10);
         buttonGrid.setPadding(new Insets(10));
         buttonGrid.setAlignment(Pos.CENTER);
-
-        // Расположение кнопок в сетке (3 столбца)
         buttonGrid.add(startButton, 0, 0);
         buttonGrid.add(shutdownButton, 1, 0);
         buttonGrid.add(runProgramButton, 2, 0);
@@ -236,46 +250,36 @@ public class ComputerApp extends Application {
         buttonGrid.add(allocateMemoryButton, 1, 2);
         buttonGrid.add(readFileButton, 2, 2);
         buttonGrid.add(restartButton, 0, 3);
-        buttonGrid.add(languageButton, 1, 3);
+
+        // Отдельная область для выбора языка
+        VBox languageBox = new VBox(10);
+        languageBox.setAlignment(Pos.CENTER);
+        languageBox.getChildren().add(languageSelector);
 
         // Основная компоновка
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10));
-        layout.getChildren().addAll(buttonGrid, outputArea);
+        layout.getChildren().addAll(buttonGrid, languageBox, outputArea);
 
         Scene scene = new Scene(layout, 450, 450);
-        primaryStage.setTitle("Dashkevich Anton lab8");
+        primaryStage.setTitle("Computer Facade Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     // Обновление текста кнопок при смене языка
     private void updateLanguage() {
-        if (isRussian) {
-            startButton.setText("Запустить компьютер");
-            shutdownButton.setText("Выключить компьютер");
-            runProgramButton.setText("Запустить программу");
-            overclockButton.setText("Разогнать процессор");
-            saveFileButton.setText("Сохранить файл");
-            updateOSButton.setText("Обновить ОС");
-            renderGraphicsButton.setText("Рендерить графику");
-            allocateMemoryButton.setText("Выделить память");
-            readFileButton.setText("Прочитать файл");
-            restartButton.setText("Перезапустить компьютер");
-            languageButton.setText("Switch to English");
-        } else {
-            startButton.setText("Start Computer");
-            shutdownButton.setText("Shutdown Computer");
-            runProgramButton.setText("Run Program");
-            overclockButton.setText("Overclock CPU");
-            saveFileButton.setText("Save File");
-            updateOSButton.setText("Update OS");
-            renderGraphicsButton.setText("Render Graphics");
-            allocateMemoryButton.setText("Allocate Memory");
-            readFileButton.setText("Read File");
-            restartButton.setText("Restart COMPUTER");
-            languageButton.setText("Switch to Russian");
-        }
+        startButton.setText(messages.getString("startComputer"));
+        shutdownButton.setText(messages.getString("shutdownComputer"));
+        runProgramButton.setText(messages.getString("runProgram"));
+        overclockButton.setText(messages.getString("overclockCPU"));
+        saveFileButton.setText(messages.getString("saveFile"));
+        updateOSButton.setText(messages.getString("updateOS"));
+        renderGraphicsButton.setText(messages.getString("renderGraphics"));
+        allocateMemoryButton.setText(messages.getString("allocateMemory"));
+        readFileButton.setText(messages.getString("readFile"));
+        restartButton.setText(messages.getString("restartComputer"));
+        languageSelector.setPromptText(messages.getString("selectLanguage"));
     }
 
     public static void main(String[] args) {
