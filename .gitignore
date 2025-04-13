@@ -24,3 +24,6 @@ Thumbs.db
 
 # Java class files
 *.class
+
+# Maven wrapper
+.mvn/
