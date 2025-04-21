@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Новости сайта</title>
+    <link>https://example.com</link>
+    <description>Последние обновления и новости</description>
+    <item>
+      <title>Новая статья о технологиях</title>
+      <link>https://example.com/articles/tech</link>
+      <description>Обзор новых технологических трендов.</description>
+      <pubDate>Mon, 21 Apr 2025 10:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>Интервью с экспертом</title>
+      <link>https://example.com/interviews/expert</link>
+      <description>Интервью с ведущим специалистом отрасли.</description>
+      <pubDate>Sun, 20 Apr 2025 15:30:00 +0900</pubDate>
+    </item>
+  </channel>
+</rss>

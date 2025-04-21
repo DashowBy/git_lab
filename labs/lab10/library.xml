@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+  <book id="b1">
+    <title>Антихрупкость</title>
+    <author>Нассим Талеб</author>
+    <year>2021</year>
+    <genre>Психология</genre>
+    <price>50.75</price>
+  </book>
+  <book id="b2">
+    <title>48 законов власти</title>
+    <author>Роберт Грин</author>
+    <year>2023</year>
+    <genre>Психология</genre>
+    <price>48.74</price>
+  </book>
+  <book id="b3">
+    <title>Чистый код</title>
+    <author>Роберт Мартин</author>
+    <year>2021</year>
+    <genre>Обучение</genre>
+    <price>35.20</price>
+  </book>
+</library>
