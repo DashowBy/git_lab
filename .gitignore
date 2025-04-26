@@ -27,3 +27,10 @@ Thumbs.db
 
 # Maven wrapper
 .mvn/
+
+# Dart
+.dart_tool/
+.packages
+build/
+.pub-cache/
+pubspec.lock

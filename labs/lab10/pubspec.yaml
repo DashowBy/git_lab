@@ -1,0 +1,9 @@
+name: my_library_app
+description: Программа для работы с XML библиотекой
+version: 1.0.0
+
+environment:
+  sdk: '>=2.12.0 <4.0.0'
+
+dependencies:
+  xml: ^6.3.0
